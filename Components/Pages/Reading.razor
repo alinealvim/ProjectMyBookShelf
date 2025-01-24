@@ -1,0 +1,134 @@
+﻿@using System.Collections.Generic
+@using Microsoft.EntityFrameworkCore
+@using MyBookShelf.Data
+@using MyBookShelf.Models.Entities
+@using Microsoft.AspNetCore.Components.Web @* Para importar DragEventArgs *@
+@using System.Security.Claims
+@using MyBookShelf.Services
+
+@rendermode InteractiveServer
+
+
+
+<div class="container">
+    <br />
+    <br />
+    <br />
+    <h3>Painel Literário</h3>
+    <p>Olá, @userInfo.UserName! O que vai ler hoje?</p>
+   
+   
+    @* Barra de pesquisa dos livros *@
+    <div>
+        <input type="text" @bind="SearchTerm" placeholder="Buscar Livro..." />
+        <button @onclick="SearchBooks">Buscar</button>
+    </div>
+
+    <br />
+    <div>
+        @if (SearchResults != null && SearchResults.Any())
+        {
+            <ul class="search-results">
+                @foreach (var book in SearchResults)
+                {
+                    <li class="search-item">
+                        <span class="book-title">@book.Title</span>
+                        <button class="add-button" @onclick="() => AddBookToUser(book)">Adicionar a sua Lista</button>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Não encontrou o que queria? Clique <b><a href="#" @onclick="() => AbrirModal()">aqui</a></b> para incluir um novo livro no nosso acervo.</p>
+        }
+    </div>
+
+
+    @* Colunas de status *@
+    <br />
+    <div class="columns">
+        @foreach (var status in Enum.GetValues<BookStatus>())
+        {
+            <div class="column" ondragover="event.preventDefault()" @ondrop="@(e => OnDrop(e, status))">
+                <h4>@status.ToString().Replace("Para", "Para ").Replace("ALer", "A Ler")</h4>
+                @foreach (var book in Books!.Where(b => b.Status == status))
+                {
+                    <div class="card"
+                         draggable="true"
+                         @ondragstart="@(e => OnDragStart(e, book))">
+                        <button class="title-button" @onclick:stopPropagation="true" @onclick="() => OpenEditModal(book)">
+                            @book.Book!.Title
+                        </button>
+                        <button class="delete-button" @onclick:stopPropagation="true" @onclick="() => ShowConfirmDialog(book)">x</button>
+                        @if (book.Book.Pages > 0)
+                        {
+                            <div class="progress-bar">
+                                <div class="progress" style="width: @(book.GetProgress())%;"></div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    @* Modal *@
+    @if (BookToEdit != null)
+    {
+        <div class="modal">
+            <div class="modal-content">
+                <h4>Editar Leitura</h4>
+                <div>
+                    <label>Título:</label>
+                    <p>@BookToEdit.Book!.Title</p>
+                </div>
+                <div>
+                    <label>Data de Início:</label>
+                    <input type="date" @bind="BookToEdit.StartDate" />
+                </div>
+                <div>
+                    <label>Data de Conclusão:</label>
+                    <input type="date" @bind="BookToEdit.EndDate" />
+                </div>
+                <div>
+                    <label>Página Atual:</label>
+                    <input type="number" @bind="BookToEdit.CurrentPage" min="0" max="@BookToEdit.Book?.Pages" />
+                </div>
+                <div>
+                    <label>Total de Páginas:</label>
+                    <input type="number" @bind="BookToEdit.Book!.Pages" min="1" />
+                </div>
+                <div>
+                    Progresso: @BookToEdit.GetProgress()%
+                </div>
+                <div>
+                    <label>Anotações:</label>
+                    <textarea @bind="BookToEdit.Notes" rows="5"></textarea>
+                </div>
+                <div>
+                    <label>Nota:</label>
+                    <div class="rating">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            var index = i; // Captura o valor de `i` localmente
+                            <button class="rating-star @(BookToEdit?.Rating == index ? "selected" : "")" @onclick="() => SetRating(index)">
+                                ★
+                            </button>
+                        }
+                    </div>
+                </div>
+                <div class="modal-buttons">
+                    <button @onclick="SaveChanges">Salvar</button>
+                    <button @onclick="() => BookToEdit = null">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <NewBooks IsAddModalOpen="isAddModalOpen" IsAddModalOpenChanged="OnModalStatusChanged" />
+
+    <ConfirmDialog @ref="confirmDialog" />
+
+</div>
+

@@ -1,0 +1,28 @@
+﻿@page "/securityAnswerValidation"
+@using MyBookShelf.Models.ViewModels
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+
+<div class="container">
+    <EditForm Model="@SecurityValidationModel" method="Post" OnValidSubmit="ValidateSecurityQuestion" FormName="@SecurityAnswerValidationForm">
+        <label>Username:</label>
+        <InputText @bind-Value="SecurityValidationModel!.Username" />
+
+        <div class="security-question">
+            <label>Pergunta de Segurança:</label>
+            <InputSelect class="form-select" id="inputGroupSelect01" @bind-Value="SecurityValidationModel.Question">
+                <option value="Qual é o nome do seu primeiro animal de estimação?">Qual é o nome do seu primeiro animal de estimação?</option>
+                <option value="Qual é o nome da sua escola primária?">Qual é o nome da sua escola primária?</option>
+                <option value="Qual é o sobrenome da sua mãe?">Qual é o sobrenome da sua mãe?</option>
+            </InputSelect>
+
+            <label>Resposta:</label>
+            <InputText @bind-Value="SecurityValidationModel.Answer" />
+        </div>
+
+        <button type="submit">Validar</button>
+    </EditForm>
+</div>
+
+
+

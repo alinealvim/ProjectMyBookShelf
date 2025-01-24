@@ -1,0 +1,35 @@
+﻿@page "/login"
+
+@using MyBookShelf.Data
+@using MyBookShelf.Models.Entities
+@using MyBookShelf.Models.ViewModels
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@using MyBookShelf.Services
+ 
+@inject AppDbContext appDbContext
+@inject NavigationManager navigationManager
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IPasswordService PasswordService
+
+<div class="page">
+    <h3>Login</h3>
+    <div class="login-container">
+        <div class="logo-container">
+            <img src="/logo_azul_nobg.png" alt="Logo My Book Shelf" class="logo-image" />
+        </div>
+        <EditForm Model="@Model" method="Post" OnValidSubmit="LoginUserAsync" FormName="@LoginForm">
+            <DataAnnotationsValidator />
+            <InputText @bind-Value="Model.Username" type="text" placeholder="Username"></InputText>
+            <ValidationMessage For="() => Model.Username"/>
+            <InputText @bind-Value="Model.Password" type="password" placeholder="Password"></InputText>
+            <ValidationMessage For="() => Model.Password" />
+            <span>@errorMessage</span>
+            <button type="submit">Login</button>
+            <br />
+            <br />
+            <p>Esqueceu sua Senha, clique <a href="/securityAnswerValidation">aqui</a>.</p>
+        </EditForm>
+    </div>
+</div>

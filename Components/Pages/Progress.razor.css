@@ -1,0 +1,6 @@
+﻿.container {
+    display: column;
+    margin: 100px auto;
+    height: 100vh;
+    padding: 0;
+}

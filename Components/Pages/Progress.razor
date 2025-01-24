@@ -1,0 +1,27 @@
+﻿@page "/progress"
+@using Microsoft.AspNetCore.Authorization
+@using MyBookShelf.Components.Pages.Graph
+@using MyBookShelf.Services
+@attribute [Authorize(Roles = "Administrator, User")]
+@rendermode InteractiveServer
+
+<PageTitle>Progresso</PageTitle>
+
+<div class="container">
+    <h1>Progresso</h1>
+    <br />
+
+    <h1>Reading Status</h1>
+    <ReadingStatus />
+
+    <br />
+
+    <h1>Page Status</h1>
+    <PageStatus />
+    <br />
+    <br />
+</div>
+
+
+
+

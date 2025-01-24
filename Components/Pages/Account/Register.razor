@@ -1,0 +1,46 @@
+﻿@page "/register"
+@using MyBookShelf.Data
+@using MyBookShelf.Models.Entities
+@using MyBookShelf.Models.ViewModels
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@using MyBookShelf.Services
+
+@inject AppDbContext appDbContext
+@inject NavigationManager navigationManager
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IPasswordService PasswordService
+
+<div class="page">
+    <h3>Crie Sua Conta</h3>
+
+    <div class="login-container">
+        <div class="logo-container">
+            <img src="/logo_azul_nobg.png" alt="Logo My Book Shelf" class="logo-image" />
+        </div>
+        <EditForm Model="@Model" OnValidSubmit="RegisterUser" FormName="RegisterForm">
+            <DataAnnotationsValidator />
+            <InputText @bind-Value="Model.Username" type="text" placeholder="Escolha seu Username"></InputText>
+            <ValidationMessage For="() => Model.Username" />
+            <InputText @bind-Value="Model.Password" type="password" placeholder="Escolha sua Password"></InputText>
+            <ValidationMessage For="() => Model.Password" />
+            <InputText @bind-Value="Model.ConfirmPassword" type="password" placeholder="Confirme sua Password"></InputText>
+            <ValidationMessage For="() => Model.ConfirmPassword" />
+            <div class="security-question">
+                <label>Pergunta de Segurança:</label>
+                <InputSelect class="form-select" id="inputGroupSelect01" @bind-Value="Model.SecurityQuestion">
+                    <option value="Qual é o nome do seu primeiro animal de estimação?">Qual é o nome do seu primeiro animal de estimação?</option>
+                    <option value="Qual é o nome da sua escola primária?">Qual é o nome da sua escola primária?</option>
+                    <option value="Qual é o sobrenome da sua mãe?">Qual é o sobrenome da sua mãe?</option>
+                </InputSelect>
+                <label>Resposta:</label>
+                <InputText @bind-Value="Model.SecurityAnswer" />
+            </div>          
+            <span>@errorMessage</span>
+            <button type="submit">Registar</button>
+        </EditForm>
+    </div>
+</div>
+
+

@@ -1,0 +1,190 @@
+﻿@page "/books"
+@using Microsoft.AspNetCore.Authorization
+@using MyBookShelf.Models.ViewModels
+@using MyBookShelf.Controllers
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
+
+@attribute [Authorize(Roles = "Administrator")]
+
+<div class="container">
+    <br />
+    <br />
+    <br />
+    <br />
+    <h3>Seleção Literária</h3>
+
+    @if (IsLoading)
+    {
+        <p>Carregando...</p>
+    }
+    else if (BooksLst.Count == 0)
+    {
+        <p>Nenhum livro cadastrado. Clique no botão abaixo para adicionar um novo livro.</p>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>Número de Páginas</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in BooksLst)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.Author</td>
+                        <td>@book.Pages</td>
+                        <td>
+                            <button class="btn btn-sm btn-info" @onclick="() => ShowDetailsModal(book.Id)">Detalhes</button>
+                            <button class="btn btn-sm btn-warning" @onclick="() => ShowEditModal(book.Id)">Editar</button>
+                            <button class="btn btn-sm btn-danger" @onclick="() => ShowConfirmDialog(book)">Excluir</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <Pagination ActivePageNumber="CurrentPage" TotalPages="TotalPages" PageChanged="OnPageChangedAsync"
+                    FirstLinkText="Primeira" PreviousLinkText="Anterior" NextLinkText="Próxima" LastLinkText="Última" />
+        <!-- Dropdown para selecionar o número de itens por página -->
+        <div class="form-group">
+            <label for="pageSizeSelect">Itens por Página</label>
+            <select id="pageSizeSelect" class="form-control" @onchange="OnPageSizeChanged" value="@PageSize">
+                @foreach (var option in PageSizeOptions)
+                {
+                    <option value="@option">@option</option>
+                }
+            </select>
+        </div>
+    }
+    <br />
+    
+    <button class="btn btn-primary" @onclick="ShowAddModal">Adicionar Novo Livro</button>
+    <br />
+    <br />
+    <!-- Modal de Adicionar Livro -->
+    @if (IsAddModalOpen)
+    {
+        <div class="modal fade show" tabindex="-1" style="display:block;" aria-modal="true" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Adicionar Livro</h5>
+                        <button type="button" class="btn-close" @onclick="CloseAddModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <EditForm Model="NewBook" OnValidSubmit="AddBook">
+                            <DataAnnotationsValidator />
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Título</label>
+                                <InputText id="title" class="form-control" @bind-Value="NewBook.Title" />
+                                <ValidationMessage For="() => NewBook.Title" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="author" class="form-label">Autor</label>
+                                <InputText id="author" class="form-control" @bind-Value="NewBook.Author" />
+                                <ValidationMessage For="() => NewBook.Author" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="genre" class="form-label">Género</label>
+                                <InputText id="genre" class="form-control" @bind-Value="NewBook.Genre" />
+                                <ValidationMessage For="() => NewBook.Genre" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="pages" class="form-label">Número de Páginas</label>
+                                <InputNumber id="pages" class="form-control" @bind-Value="NewBook.Pages" />
+                                <ValidationMessage For="() => NewBook.Pages" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <button type="button" class="btn btn-secondary" @onclick="CloseAddModal">Cancelar</button>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop fade show"></div>
+    }
+
+    <!-- Modal de Detalhes -->
+    @if (IsDetailsModalOpen)
+    {
+        <div class="modal fade show" tabindex="-1" style="display:block;" aria-modal="true" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalhes do Livro</h5>
+                        <button type="button" class="btn-close" @onclick="CloseDetailsModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Título:</strong> @SelectedBook?.Title</p>
+                        <p><strong>Autor:</strong> @SelectedBook?.Author</p>
+                        <p><strong>Género:</strong> @SelectedBook?.Genre</p>
+                        <p><strong>Número de Páginas:</strong> @SelectedBook?.Pages</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" @onclick="CloseDetailsModal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop fade show"></div>
+    }
+
+    <!-- Modal de Edição -->
+    @if (IsEditModalOpen)
+    {
+        <div class="modal fade show" tabindex="-1" style="display:block;" aria-modal="true" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Livro</h5>
+                        <button type="button" class="btn-close" @onclick="CloseEditModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <EditForm Model="SelectedBook" OnValidSubmit="SaveBookEdit">
+                            <DataAnnotationsValidator />                        
+                            <div class="mb-3">
+                                <label for="titleEdit" class="form-label">Título</label>
+                                <InputText id="titleEdit" class="form-control" @bind-Value="SelectedBook!.Title" />
+                                <ValidationMessage For="() => SelectedBook.Title" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="authorEdit" class="form-label">Autor</label>
+                                <InputText id="authorEdit" class="form-control" @bind-Value="SelectedBook.Author" />
+                                <ValidationMessage For="() => SelectedBook.Author" />
+                            </div>
+
+                           
+                            <div class="mb-3">
+                                <label for="pagesEdit" class="form-label">Número de Páginas</label>
+                                <InputNumber id="pagesEdit" class="form-control" @bind-Value="SelectedBook.Pages" />
+                                <ValidationMessage For="() => SelectedBook.Pages" />
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <button type="button" class="btn btn-secondary" @onclick="CloseEditModal">Cancelar</button>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop fade show"></div>
+    }
+
+    <ConfirmDialog @ref="confirmDialog" />
+
+
+</div>
+

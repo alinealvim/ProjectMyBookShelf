@@ -1,0 +1,45 @@
+﻿@inject NavigationManager NavigationManager
+@inject IHttpContextAccessor HttpContextAccessor
+
+@rendermode InteractiveServer
+
+
+<div class="container">
+    <div class="coluna-imagem">
+        <img src="./logo_azul_nobg.png" alt="Logo my book shelf" />
+    </div>
+
+    <div class="coluna-texto">
+        <h3>Bem-vindo ao My Book Shelf, seu espaço pessoal para organizar e acompanhar suas leituras!</h3>
+        <br />
+        <p>
+            Crie sua conta gratuitamente e comece a organizar sua jornada literária.
+            Em poucos minutos, você poderá catalogar seus livros e acompanhar seu progresso de leitura.
+        </p>
+        <button class="btn btn-primary btn-sm" @onclick="CriarConta">Criar Conta</button>
+        <br />
+        <p>
+            Já faz parte da nossa comunidade? Entre em sua conta para continuar sua jornada de leitura.
+        </p>
+        <button class="btn btn-primary btn-sm" @onclick="FazerLogin">Fazer Login</button>
+
+    </div>
+</div>
+
+
+
+
+@code {
+
+
+    private void CriarConta()
+    {
+        NavigationManager.NavigateTo("/register");
+    }
+
+    private void FazerLogin()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
+}
+

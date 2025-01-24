@@ -1,0 +1,27 @@
+/* Define o layout principal com navbar fixa */
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+main {
+    flex: 1;
+}
+
+/* Mantém a navbar fixa no topo */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+
+@media (min-width: 641px) {
+    .page {
+        flex-direction: row;
+    }
+}

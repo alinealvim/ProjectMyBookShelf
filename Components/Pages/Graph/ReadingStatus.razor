@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
+@using MyBookShelf.Data
+@using MyBookShelf.Models.Entities
+@using MyBookShelf.Services
+
+@inject IUserClaimService UserClaimService
+@inject IProgressService ProgressService
+
+@rendermode InteractiveServer
+
+@attribute [Authorize]
+
+<div class="mb-3">
+    <label for="title" class="form-label">Data Inicial</label>
+    <DateInput TValue="DateOnly" @bind-Value="@startDate" Placeholder="Insira a Data" />
+
+    <label for="title" class="form-label">Data Final</label>
+    <DateInput TValue="DateOnly" @bind-Value="@endDate" Placeholder="Insira a Data" />
+    <br />
+
+    <button class="btn btn-primary" @onclick="ApplyFilter">Filtrar</button>
+</div>
+
+<PieChart @ref="pieChart" Width="500" Height="300" />
+

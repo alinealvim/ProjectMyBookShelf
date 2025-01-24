@@ -1,0 +1,75 @@
+﻿<div class="top-row navbar navbar-dark navbar-expand-md">
+    <div class="container-fluid">
+        
+        <a class="navbar-brand" href="/">
+            <img src="logo_bgAzul.png" alt="Logo" style="width:60px; height: 60px;"> My Book Shelf
+        </a>
+
+        <!-- Botão hambúrguer para telas menores -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Links de navegação colapsáveis -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- Links para utilizadores não autenticados -->
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/register">
+                                <span class="bi bi-person-plus me-1"></span> Registo
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">
+                                <span class="bi bi-box-arrow-in-right me-1"></span> Login
+                            </a>
+                        </li>
+                    </NotAuthorized>
+                </AuthorizeView>
+
+                <!-- Links específicos por role -->
+                <AuthorizeView Roles="User, Administrator">
+                    <Authorized>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <span class="bi bi-house-door-fill-nav-menu"></span> Home
+                            </a>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+
+                <AuthorizeView Roles="Administrator">
+                    <Authorized>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/users">
+                                <span class="bi bi-people-fill"></span> Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/books">
+                                <span class="bi bi-book-fill"></span> Books
+                            </a>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+
+                <AuthorizeView Roles="User, Administrator">
+                    <Authorized>
+                       <li class="nav-item">
+                            <a class="nav-link" href="/progress">
+                                <span class="bi bi-bar-chart-fill"></span> Progress
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">
+                                <span class="bi bi-box-arrow-right me-1"></span> Logout
+                            </a>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+            </ul>
+        </div>
+    </div>
+</div>

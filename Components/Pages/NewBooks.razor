@@ -1,0 +1,54 @@
+﻿@using MyBookShelf.Models.Response
+@using MyBookShelf.Models.ViewModels
+@inject HttpClient Http
+
+@* Modal para que o utilizador possa sugerir/criar novo livro *@
+
+@if (IsAddModalOpen)
+{
+    <div class="modal fade show" tabindex="-1" style="display:block;" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Livro</h5>
+                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="NewBook" OnValidSubmit="AddBook">
+                        <DataAnnotationsValidator />                        
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Título</label>
+                            <InputText id="title" class="form-control" @bind-Value="NewBook.Title" />
+                            <ValidationMessage For="() => NewBook.Title" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Género</label>
+                            <InputText id="title" class="form-control" @bind-Value="NewBook.Genre" />
+                            <ValidationMessage For="() => NewBook.Genre" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="author" class="form-label">Autor</label>
+                            <InputText id="author" class="form-control" @bind-Value="NewBook.Author" />
+                            <ValidationMessage For="() => NewBook.Author" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="pages" class="form-label">Número de Páginas</label>
+                            <InputNumber id="pages" class="form-control" @bind-Value="NewBook.Pages" />
+                            <ValidationMessage For="() => NewBook.Pages" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancelar</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show"></div>
+}
+
+

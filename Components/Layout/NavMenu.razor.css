@@ -1,0 +1,91 @@
+/* Estilo da barra de navegação superior */
+.top-row {
+    height: 4.5rem; /* Altura da barra */
+    background-color: #377FCC; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem; /* Espaçamento interno horizontal */
+    margin: 0; /* Remove margens externas */
+    border-bottom: none; /* Remove bordas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil para destaque */
+}
+
+/* Estilo do logotipo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+    color: white;
+    text-decoration: none;
+}
+
+    .navbar-brand .logo {
+        height: 2rem;
+        margin-right: 0.5rem;
+    }
+
+/* Estilo dos links */
+.nav-link {
+    color: white;
+    text-decoration: none;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    font-weight: 200;
+}
+
+    .nav-link:hover {
+        text-decoration: underline;
+        color: white;
+    }
+
+    .nav-link .bi {
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+        color: white;
+    }
+
+/* Configuração do botão hambúrguer */
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Configuração do colapso do menu */
+.navbar-collapse {
+    background-color: #377FCC; /* Cor de fundo do menu colapsado */
+    padding: 0; /* Remove espaçamento interno */
+    margin: 0; /* Remove margens extras */
+}
+
+/* Remove margens e padding padrão do elemento "header" */
+header {
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove margens globais aplicadas ao body */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Comportamento em telas menores */
+@media (max-width: 768px) {
+    .navbar-nav {
+        text-align: center; /* Centraliza os itens no menu colapsado */
+    }
+
+    .nav-link {
+        padding: 0.5rem 1rem; /* Espaçamento interno dos links no menu colapsado */
+    }
+
+    .nav-item {
+        margin: 0.5rem 0; /* Espaçamento vertical no menu colapsado */
+    }
+}
