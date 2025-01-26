@@ -3,6 +3,8 @@
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
 
+<PageTitle>Validação Pergunta de Segurança</PageTitle>
+
 <div class="container">
     <EditForm Model="@SecurityValidationModel" method="Post" OnValidSubmit="ValidateSecurityQuestion" FormName="@SecurityAnswerValidationForm">
         <label>Username:</label>
@@ -17,7 +19,7 @@
             </InputSelect>
 
             <label>Resposta:</label>
-            <InputText @bind-Value="SecurityValidationModel.Answer" />
+            <InputText @bind-Value="SecurityValidationModel.Answer" type="password" />
         </div>
 
         <button type="submit">Validar</button>

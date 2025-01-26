@@ -13,23 +13,25 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IPasswordService PasswordService
 
+<PageTitle>Login</PageTitle>
+
 <div class="page">
-    <h3>Login</h3>
+
     <div class="login-container">
         <div class="logo-container">
             <img src="/logo_azul_nobg.png" alt="Logo My Book Shelf" class="logo-image" />
         </div>
         <EditForm Model="@Model" method="Post" OnValidSubmit="LoginUserAsync" FormName="@LoginForm">
             <DataAnnotationsValidator />
-            <InputText @bind-Value="Model.Username" type="text" placeholder="Username"></InputText>
+            <InputText @bind-Value="Model.Username" type="text" placeholder="Utilizador"></InputText>
             <ValidationMessage For="() => Model.Username"/>
-            <InputText @bind-Value="Model.Password" type="password" placeholder="Password"></InputText>
+            <InputText @bind-Value="Model.Password" type="password" placeholder="Palavra-passe"></InputText>
             <ValidationMessage For="() => Model.Password" />
             <span>@errorMessage</span>
-            <button type="submit">Login</button>
+            <button type="submit">Entrar</button>
+            <br /> 
             <br />
-            <br />
-            <p>Esqueceu sua Senha, clique <a href="/securityAnswerValidation">aqui</a>.</p>
+            <p>Esqueceu sua palavra-passe? Clique <a href="/securityAnswerValidation">aqui</a>.</p>
         </EditForm>
     </div>
 </div>

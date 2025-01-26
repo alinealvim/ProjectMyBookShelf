@@ -64,7 +64,7 @@ namespace MyBookShelf.Components.Pages.Management
                    
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ShowMessage(ToastType.Danger, "Erro inesperado.");
             }
@@ -76,14 +76,14 @@ namespace MyBookShelf.Components.Pages.Management
 
         private void ShowAddModal()
         {
-            ModalTitle = "Adicionar Usuário";
+            ModalTitle = "Adicionar Utilizador";
             CurrentUser = new UserAccountViewModel();            
             IsModalOpen = true;
         }
 
         private void ShowEditModal(UserAccountViewModel user)
         {
-            ModalTitle = "Editar Usuário";
+            ModalTitle = "Editar Utilizador";
             CurrentUser = new UserAccountViewModel
             {
                 Id = user.Id,
@@ -98,7 +98,10 @@ namespace MyBookShelf.Components.Pages.Management
         private void CloseModal()
         {
             IsReadOnly = false;
-            IsModalOpen = false;
+            IsModalOpen = false;            
+            ShowMessage(ToastType.Secondary, "Ação cancelada.");
+            
+            
         }
 
         private async Task SaveUser()
@@ -109,31 +112,62 @@ namespace MyBookShelf.Components.Pages.Management
 
                 if (CurrentUser.Id == 0)
                 {
-                    // Adicionar usuário
+                    // Verificar se o username já existe
+                    var isUsernameTaken = await IsUsernameTaken(CurrentUser.Username);
+                    if (isUsernameTaken)
+                    {
+                        ShowMessage(ToastType.Warning, "O nome de utilizador já existe. Por favor, escolha outro.");
+                        return;
+                    }
+
+                    // Adicionar utilizador
                     response = await Http.PostAsJsonAsync("api/users", CurrentUser);
+                    ShowMessage(ToastType.Success, "Sucesso ao criar novo utilizador.");
                 }
-                else
+                else 
                 {
-                    // Atualizar usuário
+                    // Atualizar utilizador
                     response = await Http.PutAsJsonAsync($"api/users/{CurrentUser.Id}", CurrentUser);
+                    ShowMessage(ToastType.Success, "Sucesso ao atualizar utilizador.");
                 }
+               
 
                 if (response.IsSuccessStatusCode)
                 {
                     await LoadUsers();
-                    CloseModal();
+                    IsReadOnly = false;
+                    IsModalOpen = false;
                 }
                 else
                 {
                     ShowMessage(ToastType.Danger, "Erro ao salvar o utilizador.");
-                    ErrorMessage = "Erro ao salvar o usuário.";
+                    IsReadOnly = false;
+                    IsModalOpen = false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ErrorMessage = $"Erro: {ex.Message}";
+                ShowMessage(ToastType.Danger, "Erro inesperado.");
             }
         }
+
+        private async Task<bool> IsUsernameTaken(string username)
+        {
+            try
+            {
+                var response = await Http.GetAsync($"api/users/exists?username={Uri.EscapeDataString(username)}");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<bool>();
+                }
+            }
+            catch (Exception)
+            {
+                ShowMessage(ToastType.Danger, "Erro ao verificar nome de utilizador.");
+            }
+            return false;
+        }
+
 
         private async Task DeleteUser(int id)
         {
@@ -147,12 +181,12 @@ namespace MyBookShelf.Components.Pages.Management
                 }
                 else
                 {
-                    ErrorMessage = "Erro ao excluir o usuário.";
+                    ShowMessage(ToastType.Danger, "Erro ao excluir o utilizador.");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ErrorMessage = $"Erro: {ex.Message}";
+                ShowMessage(ToastType.Danger, "Erro inesperado.");
             }
         }
 
@@ -162,9 +196,17 @@ namespace MyBookShelf.Components.Pages.Management
         {
             var confirmation = await confirmDialog!.ShowAsync(
                 title: "Confirmação",
-                message1: $"Você tem certeza que deseja excluir o usuário {user.Username}?",
+                message1: $"Tem certeza que deseja excluir o utilizador {user.Username}?",
                 confirmDialogOptions: new ConfirmDialogOptions { NoButtonText = "Não", YesButtonText = "Sim" });
-            if (confirmation) await DeleteUser(user.Id);               
+            if (confirmation)
+            {
+                await DeleteUser(user.Id);
+                ShowMessage(ToastType.Success, "Sucesso ao excluir utilizador.");
+            }
+            else
+            {
+                ShowMessage(ToastType.Secondary, "Ação cancelada.");
+            }
         }
 
         private void OpenResetPasswordModal(UserAccountViewModel user)
@@ -177,26 +219,32 @@ namespace MyBookShelf.Components.Pages.Management
         {
             IsResetPasswordModalOpen = false;
             PasswordModel = new PasswordViewModel();
+            ShowMessage(ToastType.Secondary, "Ação cancelada.");
         }
 
         private async Task ResetPassword()
         {
-            // Lógica para redefinir a senha do usuário
+            // Lógica para redefinir a palavra-passe do utilizador
             try
             {
                 var response = await Http.PostAsJsonAsync("api/users/reset-password", PasswordModel);
                 if (response.IsSuccessStatusCode)
-                {                    
-                    CloseResetPasswordModal();                    
+                {
+                    ShowMessage(ToastType.Success, "Sucesso ao redefinir a palavra-passe.");
+                    IsResetPasswordModalOpen = false;
+                    PasswordModel = new PasswordViewModel();
                 }
                 else
-                {                    
-                    ErrorMessage = "Erro ao redefinir a senha.";                    
+                {
+                    ShowMessage(ToastType.Danger, "Erro ao redefinir a palavra-passe.");
+                    IsResetPasswordModalOpen = false;
+                    PasswordModel = new PasswordViewModel();
+
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ErrorMessage = "Erro ao comunicar com o servidor: " + ex.Message;
+                ShowMessage(ToastType.Danger, "Erro inesperado.");
             }
         }        
     }

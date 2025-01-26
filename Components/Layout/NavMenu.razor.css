@@ -1,6 +1,6 @@
 /* Estilo da barra de navegação superior */
 .top-row {
-    height: 4.5rem; /* Altura da barra */
+    height: 6.5rem; /* Altura da barra */
     background-color: #377FCC; /* Cor de fundo */
     color: white; /* Cor do texto */
     display: flex;
@@ -21,10 +21,10 @@
     text-decoration: none;
 }
 
-    .navbar-brand .logo {
-        height: 2rem;
-        margin-right: 0.5rem;
-    }
+.navbar-brand .logo {
+    height: 2rem;
+    margin-right: 0.5rem;
+}
 
 /* Estilo dos links */
 .nav-link {
@@ -34,18 +34,31 @@
     display: flex;
     align-items: center;
     font-weight: 200;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-    .nav-link:hover {
-        text-decoration: underline;
-        color: white;
-    }
+/* Efeito de destaque ao passar o mouse e quando estiver ativo */
+.nav-link:hover,
+.nav-link:focus,
+.nav-item.active .nav-link {
+    background-color: rgba(255, 255, 255, 0.2); /* Fundo semi-transparente */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+}
 
-    .nav-link .bi {
-        margin-right: 0.5rem;
-        font-size: 1.2rem;
-        color: white;
-    }
+.nav-link:hover {
+    text-decoration: solid;
+    color: white;
+    background-color: rgba(255, 255, 255, 0.2); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+}
+
+.nav-link .bi {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    color: white;
+}
 
 /* Configuração do botão hambúrguer */
 .navbar-toggler {
@@ -76,7 +89,7 @@ body {
 }
 
 /* Comportamento em telas menores */
-@media (max-width: 768px) {
+@media (max-width: 911px) {
     .navbar-nav {
         text-align: center; /* Centraliza os itens no menu colapsado */
     }
@@ -86,6 +99,17 @@ body {
     }
 
     .nav-item {
-        margin: 0.5rem 0; /* Espaçamento vertical no menu colapsado */
+        margin: 0.5rem 1rem; /* Espaçamento vertical no menu colapsado */
+    }
+}
+
+/* Em telas maiores, exibe os links e esconde o botão hambúrguer */
+@media (min-width: 910px) {
+    .navbar-nav {
+        display: flex;
+    }
+
+    .navbar-toggler {
+        display: none;
     }
 }

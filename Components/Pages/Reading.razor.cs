@@ -248,6 +248,7 @@ namespace MyBookShelf.Components.Pages
             if (BookToEdit != null)
             {
                 BookToEdit.Rating = rating;
+                StateHasChanged();
             }
         }
 

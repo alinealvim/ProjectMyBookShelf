@@ -2,9 +2,11 @@ using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MyBookShelf.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 using MyBookShelf.Models;
 using MyBookShelf.Models.ViewModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using MyBookShelf.Data;
 
 namespace MyBookShelf.Components.Pages.Management
 {
@@ -67,7 +69,7 @@ namespace MyBookShelf.Components.Pages.Management
                     ShowMessage(ToastType.Danger, "Erro ao carregar os livros.");
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ShowMessage(ToastType.Danger, "Erro inesperado.");
             }
@@ -78,6 +80,7 @@ namespace MyBookShelf.Components.Pages.Management
             }
         }
 
+  
         private void ShowAddModal()
         {
             NewBook = new BookViewModel(); // Reseta os dados do formulário
@@ -95,10 +98,21 @@ namespace MyBookShelf.Components.Pages.Management
         {
             try
             {
+                // Verificar se o livro já existe
+                var isBookTaken = await IsBookTaken(NewBook.Title, NewBook.Author);
+                if (isBookTaken)
+                {
+                    ShowMessage(ToastType.Warning, "O livro já existe em nosso acervo. Por favor, escolha outro.");
+                    CloseAddModal();
+                    StateHasChanged();
+                    return;
+                }
+
                 var response = await Http.PostAsJsonAsync("api/books", NewBook);
 
                 if (response.IsSuccessStatusCode)
                 {
+                  
                     BooksLst.Add(NewBook); // Atualiza a lista local
                     ShowMessage(ToastType.Success, "Livro adicionado com sucesso.");
                     CloseAddModal();
@@ -112,13 +126,32 @@ namespace MyBookShelf.Components.Pages.Management
                     CloseAddModal();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                ShowMessage(ToastType.Danger, "Ocorreu um erro inesoerado.");
+                ShowMessage(ToastType.Danger, "Ocorreu um erro inesperado.");
                 StateHasChanged(); // Atualiza a interface para mostrar o erro
                 CloseAddModal();
             }
         }
+
+        private async Task<bool> IsBookTaken(string title, string author)
+        {
+            try
+            {
+                var response = await Http.GetAsync($"api/books/exists?title={Uri.EscapeDataString(title)}&author={Uri.EscapeDataString(author)}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<bool>(); // Retorna 'true' ou 'false'
+                }
+            }
+            catch (Exception)
+            {
+                ShowMessage(ToastType.Danger, "Erro ao verificar a existência do livro.");
+            }
+            return false;
+        }
+
 
         private void ShowDetailsModal(int id)
         {
@@ -174,13 +207,13 @@ namespace MyBookShelf.Components.Pages.Management
 
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ShowMessage(ToastType.Danger, "Erro inesperado.");
             }
             finally
             {
-                StateHasChanged();
+                StateHasChanged();                
             }
         }
 
@@ -201,7 +234,7 @@ namespace MyBookShelf.Components.Pages.Management
                     StateHasChanged(); // Atualiza a interface para mostrar o erro
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ShowMessage(ToastType.Danger, "Erro inesperado.");
                 StateHasChanged(); // Atualiza a interface para mostrar o erro
@@ -220,6 +253,10 @@ namespace MyBookShelf.Components.Pages.Management
             {
                 await DeleteBook(book.Id);
                 ShowMessage(ToastType.Success, "Sucesso ao excluir o livro.");
+            }
+            else
+            {
+                ShowMessage(ToastType.Secondary, "Ação cancelada.");
             }
         }
     }

@@ -20,6 +20,18 @@ namespace MyBookShelf.Controllers
             _passwordService = passwordService;
         }
 
+
+        // Verificar se o Username já existe (GET /api/users/exists)
+        [HttpGet("exists")]
+        public async Task<IActionResult> CheckUsernameExists([FromQuery] string username)
+        {
+            // Verifica se existe um utilizador com o nome de utilizador fornecido
+            var userExists = await _context.Users.AnyAsync(u => u.Username == username);
+
+            // Retorna 'true' se o Username já estiver em uso, ou 'false' se estiver disponível
+            return Ok(userExists);
+        }
+
         // 1. Listar todos os utilizadores
         [HttpGet]
         public async Task<IActionResult> GetUsers()
@@ -187,6 +199,10 @@ namespace MyBookShelf.Controllers
 
             return Ok("Senha redefinida com sucesso.");
         }
+   
+
+
     }
+
 }
 

@@ -9,3 +9,10 @@
     padding: 0; 
     overflow: hidden;
 }
+
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    padding: 20px;
+}

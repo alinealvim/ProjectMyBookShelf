@@ -21,7 +21,7 @@ namespace MyBookShelf.Components.Pages.Account
 
             if ((userAccount == null) || (!PasswordService.CheckPassword(Model.Password!, userAccount?.Password!)))
             {
-                errorMessage = "Usuário e/ou Senha inválido(s).";
+                errorMessage = "Utilizador e/ou palavra-passe inválido(s).";
                 return;
             }            
 

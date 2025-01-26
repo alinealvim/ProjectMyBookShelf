@@ -19,6 +19,17 @@ namespace MyBookShelf.Controllers
             _context = context;
         }
 
+        // Verificar se o livro já existe (GET /api/books/exists)
+        [HttpGet("exists")]
+        public async Task<IActionResult> CheckBookExists([FromQuery] string title, [FromQuery] string author)
+        {
+            var bookExists = await _context.Books
+                .AnyAsync(b => b.Title == title && b.Author == author);
+
+            return Ok(bookExists); // Retorna 'true' se já existir um livro com o mesmo título e autor
+        }
+
+
         // 1. Listar todos os livros (GET /api/books)
         [HttpGet]
         public async Task<IActionResult> GetBooks()
@@ -29,6 +40,7 @@ namespace MyBookShelf.Controllers
                     Id = b.BookID,
                     Title = b.Title,
                     Author = b.Author,
+                    Genre = b.Genre,
                     Pages = b.Pages
                 })
                 .ToListAsync();
@@ -47,6 +59,7 @@ namespace MyBookShelf.Controllers
                     Id = b.BookID,
                     Title = b.Title,
                     Author = b.Author,
+                    Genre = b.Genre,
                     Pages = b.Pages
                 })
                 .FirstOrDefaultAsync();
@@ -101,6 +114,7 @@ namespace MyBookShelf.Controllers
 
             existingBook.Title = model.Title!;
             existingBook.Author = model.Author!;
+            existingBook.Genre = model.Genre!;
             existingBook.Pages = model.Pages;
 
 

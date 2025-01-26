@@ -9,12 +9,14 @@
 
 @attribute [Authorize(Roles = "Administrator")]
 
+<PageTitle>Acervo Bibliográfico</PageTitle>
+
 <div class="container">
     <br />
     <br />
     <br />
     <br />
-    <h3>Seleção Literária</h3>
+    <h3>Acervo Bibliográfico</h3>
 
     @if (IsLoading)
     {
@@ -26,11 +28,13 @@
     }
     else
     {
+                
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Título</th>
                     <th>Autor</th>
+                    <th>Género</th>
                     <th>Número de Páginas</th>
                     <th>Ações</th>
                 </tr>
@@ -41,6 +45,7 @@
                     <tr>
                         <td>@book.Title</td>
                         <td>@book.Author</td>
+                        <td>@book.Genre</td>
                         <td>@book.Pages</td>
                         <td>
                             <button class="btn btn-sm btn-info" @onclick="() => ShowDetailsModal(book.Id)">Detalhes</button>
@@ -164,6 +169,12 @@
                                 <label for="authorEdit" class="form-label">Autor</label>
                                 <InputText id="authorEdit" class="form-control" @bind-Value="SelectedBook.Author" />
                                 <ValidationMessage For="() => SelectedBook.Author" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="genreEdit" class="form-label">Género</label>
+                                <InputText id="genreEdit" class="form-control" @bind-Value="SelectedBook.Genre" />
+                                <ValidationMessage For="() => SelectedBook.Genre" />
                             </div>
 
                            
