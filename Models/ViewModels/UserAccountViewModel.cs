@@ -5,11 +5,11 @@ namespace MyBookShelf.Models.ViewModels
     public class UserAccountViewModel
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "O username é obrigatório.")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "O username deve ter entre 3 e 50 caracteres.")]
+        [Required(ErrorMessage = "O nome de utilizador é obrigatório.")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "O nome de utilizador deve ter entre 3 e 50 caracteres.")]
         public string? Username { get; set; }
-        [Required(ErrorMessage = "A senha é obrigatória.")]
-        [StringLength(100, MinimumLength = 5, ErrorMessage = "A senha deve ter pelo menos 5 caracteres.")]
+        [Required(ErrorMessage = "A palavra-passe é obrigatória.")]
+        [StringLength(100, MinimumLength = 5, ErrorMessage = "A palvra-passe deve ter pelo menos 5 caracteres.")]
         public string? Password { get; set; }
 
         [Required(ErrorMessage = "A função é obrigatória.")]

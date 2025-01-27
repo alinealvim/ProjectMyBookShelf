@@ -27,7 +27,7 @@
             <ValidationMessage For="() => Model.Username"/>
             <InputText @bind-Value="Model.Password" type="password" placeholder="Palavra-passe"></InputText>
             <ValidationMessage For="() => Model.Password" />
-            <span>@errorMessage</span>
+            <span class="error-message">@errorMessage</span>
             <button type="submit">Entrar</button>
             <br /> 
             <br />

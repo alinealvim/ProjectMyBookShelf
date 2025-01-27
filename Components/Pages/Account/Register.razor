@@ -6,21 +6,48 @@
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Authentication.Cookies
 @using MyBookShelf.Services
+@using BlazorBootstrap
+
+@rendermode InteractiveServer
 
 @inject AppDbContext appDbContext
 @inject NavigationManager navigationManager
 @inject IHttpContextAccessor HttpContextAccessor
 @inject IPasswordService PasswordService
 
+
+
 <PageTitle>Registo</PageTitle>
 
 <div class="page">
-
-
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <div class="login-container">
         <div class="logo-container">
             <img src="/logo_azul_nobg.png" alt="Logo My Book Shelf" class="logo-image" />
         </div>
+
+       
+        @if (isSuccessAlertVisible)
+        {
+            <Alert @ref="successAlert" Color="AlertColor.Success">
+                <strong>Conta criada com sucesso!</strong> Redirecionando para a página de login...                 
+                <button class="btn btn-primary" @onclick="LoginSuccessAlert">OK</button>
+            </Alert>
+        }        
+        @if (isErrorAlertVisible)
+        {
+            <Alert Color="AlertColor.Danger">
+                <strong>Erro!</strong> @errorMessage
+            </Alert>
+        }
+        
         <EditForm Model="@Model" OnValidSubmit="RegisterUser" FormName="RegisterForm">
             <DataAnnotationsValidator />
             <InputText @bind-Value="Model.Username" type="text" placeholder="Escolha seu nome de utilizador"></InputText>
@@ -38,11 +65,17 @@
                 </InputSelect>
                 <label>Resposta:</label>
                 <InputText @bind-Value="Model.SecurityAnswer" type="text" placeholder="Insira sua resposta" />
+                <ValidationMessage For="() => Model.SecurityAnswer" />
             </div>          
-            <span class="error-message">@errorMessage</span>
+            @* <span class="error-message">@errorMessage</span> *@
+            <br />
             <button type="submit">Registar</button>
-        </EditForm>
+        </EditForm>        
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
 </div>
 
 
