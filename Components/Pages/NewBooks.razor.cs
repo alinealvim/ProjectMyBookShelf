@@ -1,8 +1,8 @@
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
+using MyBookShelf.Models;
 using MyBookShelf.Models.Response;
 using MyBookShelf.Models.ViewModels;
-using static MyBookShelf.Components.Pages.Reading;
 
 namespace MyBookShelf.Components.Pages
 {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using MyBookShelf.Data;
+using MyBookShelf.Models;
 using MyBookShelf.Models.Entities;
 using MyBookShelf.Services;
 
@@ -22,7 +23,7 @@ namespace MyBookShelf.Components.Pages
         AppDbContext AppDbContext { get; set; } = default!;
 
         
-        public record ModalState(bool IsAddModalOpen, int Id);
+        
         private ModalState modalState = new(false, 0);
 
         private void AbrirModal(int id = 0)
@@ -127,8 +128,18 @@ namespace MyBookShelf.Components.Pages
 
         private void OpenEditModal(UserBook book)
         {
-            //isAddModalOpen = false;
-            BookToEdit = book;
+            BookToEdit = new UserBook
+            {
+                Book = book.Book,
+                BookID = book.BookID,
+                UserID = book.UserID,
+                Status = book.Status,
+                StartDate = book.StartDate,
+                EndDate = book.EndDate,
+                CurrentPage = book.CurrentPage,
+                Rating = book.Rating,
+                Notes = book.Notes
+            };
         }
 
         private async Task DeleteBook(UserBook book)
@@ -153,7 +164,8 @@ namespace MyBookShelf.Components.Pages
                 StartDate = BookToEdit!.StartDate,
                 EndDate = BookToEdit!.EndDate,
                 CurrentPage = BookToEdit!.CurrentPage,
-                Rating = BookToEdit.Rating // Salvar a classificação
+                Rating = BookToEdit.Rating, // Salvar a classificação
+                Notes = BookToEdit.Notes
             };
             var existingBook = await AppDbContext.UserBooks.FirstOrDefaultAsync(ub => ub.UserID == bookToSave.UserID && ub.BookID == bookToSave.BookID);
             if (existingBook != null)
@@ -164,6 +176,7 @@ namespace MyBookShelf.Components.Pages
                 existingBook.EndDate = bookToSave.EndDate;
                 existingBook.CurrentPage = bookToSave.CurrentPage;
                 existingBook.Rating = bookToSave.Rating;
+                existingBook.Notes = bookToSave.Notes;
 
                 if (bookToSave.CurrentPage > 0)
                 {
@@ -260,6 +273,14 @@ namespace MyBookShelf.Components.Pages
         {
             SearchResults = [];
             SearchTerm = String.Empty;
+        }
+        private void CancelChanges()
+        {
+            if (BookToEdit != null)
+            {
+                BookToEdit = null;
+                StateHasChanged();
+            }
         }
     }
 }
