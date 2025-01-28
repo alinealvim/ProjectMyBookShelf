@@ -30,7 +30,7 @@ namespace MyBookShelf.Components.Pages.Graph
             PieChartDataset dataset = new()
             {
                 Label = "Status dos Livros",
-                Data = groupedData.Select(g => (double?)g.Count / totalBooks * 100).ToList()
+                Data = groupedData.Select(g => (double?)g.Count /*/ totalBooks * 100*/).ToList()
             };
 
             var labels = groupedData.Select(g => g.Status).ToList();
@@ -41,7 +41,11 @@ namespace MyBookShelf.Components.Pages.Graph
                 Labels = labels
             };
 
-            pieChartOptions = new PieChartOptions { Responsive = true };
+            pieChartOptions = new PieChartOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false
+            };
 
             if (initialize)
             {
@@ -69,5 +73,8 @@ namespace MyBookShelf.Components.Pages.Graph
         {
             await PrepareGraph(false);
         }
+
+
+
     }
 }

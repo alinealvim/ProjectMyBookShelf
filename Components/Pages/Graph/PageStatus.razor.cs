@@ -38,7 +38,12 @@ namespace MyBookShelf.Components.Pages.Graph
                 Datasets = [dataset],
                 Labels = labels
             };
-            barChartOptions = new BarChartOptions { Responsive = true, Interaction = new Interaction { Mode = InteractionMode.Index } };
+            barChartOptions = new BarChartOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false,
+                Interaction = new Interaction { Mode = InteractionMode.Index }
+            };
 
             if (initialize)
             {

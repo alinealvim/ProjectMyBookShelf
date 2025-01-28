@@ -11,16 +11,21 @@
 
 @attribute [Authorize]
 
-<div class="mb-3">
-    <label for="title" class="form-label">Data Inicial</label>
-    <DateInput TValue="DateOnly" @bind-Value="@startDate" Placeholder="Insira a Data" />
 
-    <label for="title" class="form-label">Data Final</label>
-    <DateInput TValue="DateOnly" @bind-Value="@endDate" Placeholder="Insira a Data" />
-    <br />
+
+<div class="mb-3">
+    <div class="date-filter">
+        <label for="startDate" class="form-label">Data Inicial</label>
+        <DateInput TValue="DateOnly" @bind-Value="@startDate" Placeholder="Insira a Data" />
+
+        <label for="endDate" class="form-label">Data Final</label>
+        <DateInput TValue="DateOnly" @bind-Value="@endDate" Placeholder="Insira a Data" />
+    </div>
 
     <button class="btn btn-primary" @onclick="ApplyFilter">Filtrar</button>
 </div>
+
+@* <PieChart @ref="pieChart" /> *@
 
 <PieChart @ref="pieChart" Width="500" Height="300" />
 

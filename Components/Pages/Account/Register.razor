@@ -37,8 +37,8 @@
         @if (isSuccessAlertVisible)
         {
             <Alert @ref="successAlert" Color="AlertColor.Success">
-                <strong>Conta criada com sucesso!</strong> Redirecionando para a página de login...                 
-                <button class="btn btn-primary" @onclick="LoginSuccessAlert">OK</button>
+                <strong>Conta criada com sucesso!</strong>                  
+                <button class="btn btn-outline-success" @onclick="LoginSuccessAlert">Seguir para login</button>
             </Alert>
         }        
         @if (isErrorAlertVisible)
@@ -52,9 +52,9 @@
             <DataAnnotationsValidator />
             <InputText @bind-Value="Model.Username" type="text" placeholder="Escolha seu nome de utilizador"></InputText>
             <ValidationMessage For="() => Model.Username" />
-            <InputText @bind-Value="Model.Password" type="password" placeholder="Escolha sua palvra-passe"></InputText>
+            <InputText @bind-Value="Model.Password" type="password" placeholder="Escolha sua palavra-passe"></InputText>
             <ValidationMessage For="() => Model.Password" />
-            <InputText @bind-Value="Model.ConfirmPassword" type="password" placeholder="Confirme sua palvra-passe"></InputText>
+            <InputText @bind-Value="Model.ConfirmPassword" type="password" placeholder="Confirme sua palavra-passe"></InputText>
             <ValidationMessage For="() => Model.ConfirmPassword" />
             <div class="security-question">
                 <label>Pergunta de Segurança:</label>

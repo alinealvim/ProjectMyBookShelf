@@ -1,0 +1,26 @@
+﻿.mb-3 {
+    display: flex;
+    flex-direction: column; /* Organiza os elementos verticalmente */
+    align-items: center;
+    gap: 10px; /* Espaçamento entre os elementos */
+}
+
+.date-filter {
+    display: flex;
+    flex-direction: row; /* Inputs de data lado a lado */
+    gap: 10px; /* Espaçamento entre os inputs */
+    justify-content: center; /* Centraliza os inputs */
+    width: 100%; /* Garante que os inputs ocupem o espaço disponível */
+    max-width: 500px; /* Limita a largura total do grupo */
+}
+
+    .date-filter input {
+        flex: 1 1 auto; /* Faz com que os inputs dividam o espaço igualmente */
+        max-width: 200px; /* Limita a largura máxima dos inputs */
+        min-width: 150px; /* Define uma largura mínima */
+    }
+
+.mb-3 button {
+    margin-top: 10px; /* Espaço acima do botão */
+    align-self: center; /* Centraliza o botão horizontalmente */
+}

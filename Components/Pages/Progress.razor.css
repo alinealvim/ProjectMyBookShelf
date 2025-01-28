@@ -1,6 +1,28 @@
-﻿.container {
-    display: column;
-    margin: 100px auto;
-    height: 100vh;
-    padding: 0;
+﻿
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 20px;
+    gap: 20px; /* Espaçamento entre os gráficos */
+    height: auto;
+    box-sizing: border-box; /* Inclui padding no cálculo da largura/altura */
+    text-align: left;
+}
+
+.graph-wrapper {
+    display: grid;
+    grid-template-columns: 1fr; /* Uma coluna por padrão */
+    gap: 20px; /* Espaço entre os gráficos */
+    width: 100%; /* Ocupa toda a largura */
+    max-width: 1200px; /* Limite máximo de largura */
+}
+
+/* Estilo para telas maiores */
+@media (min-width: 768px) {
+    .graph-wrapper {
+        grid-template-columns: 1fr 1fr; /* Dois gráficos lado a lado */
+    }
 }
