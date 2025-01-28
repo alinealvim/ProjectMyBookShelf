@@ -29,6 +29,10 @@ namespace MyBookShelf.Components.Pages.Management
         private int CurrentPage = 1;  // Página atual
         private int TotalPages;  // Total de páginas
         private readonly List<int> PageSizeOptions = [5, 10, 15, 20];  // Opções de número de itens por página
+        private string SelectedSortCriteria = "Title"; // Critério padrão de ordenação
+        private bool IsAscending = true; // Ordem padrão é crescente
+        private string SearchTerm { get; set; } = string.Empty;
+
 
         private async Task OnPageChangedAsync(int page)
         {
@@ -259,5 +263,75 @@ namespace MyBookShelf.Components.Pages.Management
                 ShowMessage(ToastType.Secondary, "Ação cancelada.");
             }
         }
+
+       
+        private void OnSortCriteriaChanged(ChangeEventArgs e)
+        {
+            SelectedSortCriteria = e.Value!.ToString()!;
+            SortBooks();
+        }
+
+        private void ToggleSortOrder()
+        {
+            IsAscending = !IsAscending;
+            SortBooks();
+        }
+
+        private void SortBooks()
+        {
+            if (SelectedSortCriteria == "Title")
+            {
+                BooksLst = IsAscending
+                    ? BooksLst.OrderBy(b => b.Title).ToList()
+                    : BooksLst.OrderByDescending(b => b.Title).ToList();
+            }
+            else if (SelectedSortCriteria == "Author")
+            {
+                BooksLst = IsAscending
+                    ? BooksLst.OrderBy(b => b.Author).ToList()
+                    : BooksLst.OrderByDescending(b => b.Author).ToList();
+            }
+            else if (SelectedSortCriteria == "Genre")
+            {
+                BooksLst = IsAscending
+                    ? BooksLst.OrderBy(b => b.Genre).ToList()
+                    : BooksLst.OrderByDescending(b => b.Genre).ToList();
+            }
+
+            StateHasChanged(); // Atualiza a interface com a lista ordenada
+        }
+
+        
+        private async Task PerformSearch()
+        {
+            try
+            {
+                IsLoading = true;
+
+                // Envie o termo de pesquisa como parâmetro para o servidor
+                var response = await Http.GetAsync($"api/books/search?term={Uri.EscapeDataString(SearchTerm)}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var searchResult = await response.Content.ReadFromJsonAsync<List<BookViewModel>>();
+                    BooksLst = searchResult!;
+                }
+                else
+                {
+                    ShowMessage(ToastType.Danger, "Erro ao realizar a busca.");
+                }
+            }
+            catch (Exception)
+            {
+                ShowMessage(ToastType.Danger, "Erro inesperado ao realizar a busca.");
+            }
+            finally
+            {
+                IsLoading = false;
+                StateHasChanged(); // Atualize a interface
+            }
+        }
+
+
     }
 } 

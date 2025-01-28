@@ -37,7 +37,7 @@ namespace MyBookShelf.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var users = await _context.Users
-                .Select(u => new UserAccountViewModel
+                .Select(u => new UserViewModel
                 {
                     Id = u.UserID,
                     Username = u.Username,
@@ -50,7 +50,7 @@ namespace MyBookShelf.Controllers
 
         // 2. Adicionar novo utilizador
         [HttpPost]
-        public async Task<IActionResult> AddUser([FromBody] UserAccountViewModel model)
+        public async Task<IActionResult> AddUser([FromBody] UserViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Dados inválidos.");
@@ -76,7 +76,7 @@ namespace MyBookShelf.Controllers
 
         // 3. Atualizar utilizador existente
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserAccountViewModel model)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Dados inválidos.");
@@ -116,7 +116,7 @@ namespace MyBookShelf.Controllers
             if (pageSize < 1) pageSize = 10;
 
             var usersQuery = _context.Users
-                .Select(u => new UserAccountViewModel
+                .Select(u => new UserViewModel
                 {
                     Id = u.UserID,
                     Username = u.Username,
@@ -199,7 +199,33 @@ namespace MyBookShelf.Controllers
 
             return Ok("Senha redefinida com sucesso.");
         }
-   
+
+
+        // Buscar utilizadores por termo (GET /api/users/search)
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchUsers([FromQuery] string term)
+        {
+            if (string.IsNullOrWhiteSpace(term))
+            {
+                return BadRequest(new { Message = "O termo de pesquisa não pode estar vazio." });
+            }
+
+            // Busca no campo Username
+            var filteredUsers = await _context.Users
+                .Where(u => EF.Functions.Like(u.Username, $"%{term}%"))
+                .Select(u => new UserViewModel
+                {
+                    Username = u.Username
+                })
+                .ToListAsync();
+
+            if (!filteredUsers.Any())
+            {
+                return NotFound(new { Message = "Nenhum livro encontrado com o termo fornecido." });
+            }
+
+            return Ok(filteredUsers);
+        }
 
 
     }

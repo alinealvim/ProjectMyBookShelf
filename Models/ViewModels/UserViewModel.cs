@@ -2,7 +2,7 @@
 
 namespace MyBookShelf.Models.ViewModels
 {
-    public class UserAccountViewModel
+    public class UserViewModel
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "O nome de utilizador é obrigatório.")]

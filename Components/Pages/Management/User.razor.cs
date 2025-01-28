@@ -6,14 +6,14 @@ using MyBookShelf.Models.ViewModels;
 using MyBookShelf.Services;
 
 namespace MyBookShelf.Components.Pages.Management
-{    
+{
     public partial class User
     {
         [Inject] protected ToastService ToastService { get; set; }
         private void ShowMessage(ToastType toastType, string message) => ToastService.Notify(new(toastType, message));
 
-        private List<UserAccountViewModel> Users = [];
-        private UserAccountViewModel CurrentUser = new();
+        private List<UserViewModel> Users = [];
+        private UserViewModel CurrentUser = new();
         private bool IsLoading = true;
         private bool IsModalOpen = false;
         private string ModalTitle = "";
@@ -27,6 +27,12 @@ namespace MyBookShelf.Components.Pages.Management
 
         private bool IsResetPasswordModalOpen = false;
         private PasswordViewModel PasswordModel = new();
+
+        private string SelectedSortCriteria = "UserId"; // Critério padrão de ordenação
+        private bool IsAscending = true; // Ordem padrão é crescente
+
+        private string SearchTerm { get; set; } = string.Empty;
+
         private async Task OnPageChangedAsync(int page)
         {
             CurrentPage = page;
@@ -34,12 +40,12 @@ namespace MyBookShelf.Components.Pages.Management
         }
 
         protected override async Task OnInitializedAsync()
-        {            
+        {
             await LoadUsers();
         }
 
         private async Task OnPageSizeChanged(ChangeEventArgs e)
-        {            
+        {
             PageSize = int.Parse(e.Value!.ToString()!);  // Atualiza o tamanho da página
             CurrentPage = 1;  // Voltar para a primeira página quando o número de itens mudar
             await LoadUsers();
@@ -54,14 +60,14 @@ namespace MyBookShelf.Components.Pages.Management
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var pagedUsers = await response.Content.ReadFromJsonAsync<PagedResult<UserAccountViewModel>>();
+                    var pagedUsers = await response.Content.ReadFromJsonAsync<PagedResult<UserViewModel>>();
                     Users = pagedUsers!.Data!;
                     TotalPages = pagedUsers.TotalPages;
                 }
                 else
                 {
                     ShowMessage(ToastType.Danger, "Erro ao carregar os utilizadores.");
-                   
+
                 }
             }
             catch (Exception)
@@ -77,14 +83,14 @@ namespace MyBookShelf.Components.Pages.Management
         private void ShowAddModal()
         {
             ModalTitle = "Adicionar Utilizador";
-            CurrentUser = new UserAccountViewModel();            
+            CurrentUser = new UserViewModel();
             IsModalOpen = true;
         }
 
-        private void ShowEditModal(UserAccountViewModel user)
+        private void ShowEditModal(UserViewModel user)
         {
             ModalTitle = "Editar Utilizador";
-            CurrentUser = new UserAccountViewModel
+            CurrentUser = new UserViewModel
             {
                 Id = user.Id,
                 Username = user.Username,
@@ -98,10 +104,10 @@ namespace MyBookShelf.Components.Pages.Management
         private void CloseModal()
         {
             IsReadOnly = false;
-            IsModalOpen = false;            
+            IsModalOpen = false;
             ShowMessage(ToastType.Secondary, "Ação cancelada.");
-            
-            
+
+
         }
 
         private async Task SaveUser()
@@ -124,13 +130,13 @@ namespace MyBookShelf.Components.Pages.Management
                     response = await Http.PostAsJsonAsync("api/users", CurrentUser);
                     ShowMessage(ToastType.Success, "Sucesso ao criar novo utilizador.");
                 }
-                else 
+                else
                 {
                     // Atualizar utilizador
                     response = await Http.PutAsJsonAsync($"api/users/{CurrentUser.Id}", CurrentUser);
                     ShowMessage(ToastType.Success, "Sucesso ao atualizar utilizador.");
                 }
-               
+
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -192,7 +198,7 @@ namespace MyBookShelf.Components.Pages.Management
 
         private ConfirmDialog? confirmDialog;
 
-        private async Task ShowConfirmDialog(UserAccountViewModel user)
+        private async Task ShowConfirmDialog(UserViewModel user)
         {
             var confirmation = await confirmDialog!.ShowAsync(
                 title: "Confirmação",
@@ -209,7 +215,7 @@ namespace MyBookShelf.Components.Pages.Management
             }
         }
 
-        private void OpenResetPasswordModal(UserAccountViewModel user)
+        private void OpenResetPasswordModal(UserViewModel user)
         {
             PasswordModel = new PasswordViewModel { UserId = user.Id };
             IsResetPasswordModalOpen = true;
@@ -246,6 +252,73 @@ namespace MyBookShelf.Components.Pages.Management
             {
                 ShowMessage(ToastType.Danger, "Erro inesperado.");
             }
-        }        
+        }
+
+        private void OnSortCriteriaChanged(ChangeEventArgs e)
+        {
+            SelectedSortCriteria = e.Value!.ToString()!;
+            SortUsers();
+        }
+
+        private void ToggleSortOrder()
+        {
+            IsAscending = !IsAscending;
+            SortUsers();
+        }
+
+        private void SortUsers()
+        {
+            if (SelectedSortCriteria == "UserId")
+            {
+                Users = IsAscending
+                    ? Users.OrderBy(u => u.Id).ToList()
+                    : Users.OrderByDescending(u => u.Id).ToList();
+            }
+            else if (SelectedSortCriteria == "Username")
+            {
+                Users = IsAscending
+                    ? Users.OrderBy(u => u.Username).ToList()
+                    : Users.OrderByDescending(u => u.Username).ToList();
+            }
+            else if (SelectedSortCriteria == "Role")
+            {
+                Users = IsAscending
+                    ? Users.OrderBy(u => u.Role).ToList()
+                    : Users.OrderByDescending(u => u.Role).ToList();
+            }
+
+            StateHasChanged(); // Atualiza a interface com a lista ordenada
+        }
+
+        private async Task PerformSearch()
+        {
+            try
+            {
+                IsLoading = true;
+
+                // Envie o termo de pesquisa como parâmetro para o servidor
+                var response = await Http.GetAsync($"api/users/search?term={Uri.EscapeDataString(SearchTerm)}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var searchResult = await response.Content.ReadFromJsonAsync<List<UserViewModel>>();
+                    Users = searchResult!;
+                }
+                else
+                {
+                    ShowMessage(ToastType.Danger, "Erro ao realizar a busca.");
+                }
+            }
+            catch (Exception)
+            {
+                ShowMessage(ToastType.Danger, "Erro inesperado ao realizar a busca.");
+            }
+            finally
+            {
+                IsLoading = false;
+                StateHasChanged(); // Atualize a interface
+            }
+        }
+
     }
 }

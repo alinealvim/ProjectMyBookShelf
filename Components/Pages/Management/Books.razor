@@ -28,6 +28,34 @@
     }
     else
     {
+        <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Digite para pesquisar..." @bind="SearchTerm" />
+            <button class="btn btn-primary mt-2" @onclick="PerformSearch">Pesquisar</button>
+        </div>
+
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="sortCriteria" class="form-label">Ordenar Por:</label>
+                <select id="sortCriteria" class="form-select" @onchange="OnSortCriteriaChanged" value="@SelectedSortCriteria">
+                    <option value="Title">Título</option>
+                    <option value="Author">Autor</option>
+                    <option value="Genre">Género</option>
+                </select>
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+                <button class="btn btn-secondary" @onclick="ToggleSortOrder">
+                    @if (IsAscending)
+                    {
+                        <span>Ordem: Crescente</span>
+                    }
+                    else
+                    {
+                        <span>Ordem: Decrescente</span>
+                    }
+                </button>
+            </div>
+        </div>
                 
         <table class="table table-striped">
             <thead>

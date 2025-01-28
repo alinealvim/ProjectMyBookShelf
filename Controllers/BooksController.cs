@@ -179,5 +179,39 @@ namespace MyBookShelf.Controllers
 
             return Ok(result);
         }
+
+        // Buscar livros por termo (GET /api/books/search)
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchBooks([FromQuery] string term)
+        {
+            if (string.IsNullOrWhiteSpace(term))
+            {
+                return BadRequest(new { Message = "O termo de pesquisa não pode estar vazio." });
+            }
+
+            // Busca nos campos relevantes (Título, Autor, Gênero)
+            var filteredBooks = await _context.Books
+                .Where(b => EF.Functions.Like(b.Title, $"%{term}%") ||
+                            EF.Functions.Like(b.Author, $"%{term}%") ||
+                            EF.Functions.Like(b.Genre, $"%{term}%"))
+                .Select(b => new BookViewModel
+                {
+                    Id = b.BookID,
+                    Title = b.Title,
+                    Author = b.Author,
+                    Genre = b.Genre,
+                    Pages = b.Pages
+                })
+                .ToListAsync();
+
+            if (!filteredBooks.Any())
+            {
+                return NotFound(new { Message = "Nenhum livro encontrado com o termo fornecido." });
+            }
+
+            return Ok(filteredBooks);
+        }
+
+
     }
 }
