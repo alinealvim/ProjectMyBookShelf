@@ -49,6 +49,8 @@ button {
     .container {
         grid-template-columns: 1fr; /*Torna o layout com uma única coluna */
         text-align: center; /*Centraliza o texto */
+        margin: 50px auto;
+        height: 100vh;
     }
 
     .coluna-imagem img {

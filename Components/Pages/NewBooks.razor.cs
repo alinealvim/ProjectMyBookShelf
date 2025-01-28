@@ -42,7 +42,8 @@ namespace MyBookShelf.Components.Pages
                 CloseModal();
                 StateHasChanged(); // Garante que a UI seja atualizada
             }
-            
+
+          
         }
 
 

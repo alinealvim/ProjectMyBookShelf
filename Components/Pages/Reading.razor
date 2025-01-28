@@ -126,7 +126,7 @@
         </div>
     }
 
-    <NewBooks IsAddModalOpen="isAddModalOpen" IsAddModalOpenChanged="OnModalStatusChanged" />
+    <NewBooks @rendermode="InteractiveServer" IsAddModalOpen="isAddModalOpen" IsAddModalOpenChanged="OnModalStatusChanged" />
 
     <ConfirmDialog @ref="confirmDialog" />
 

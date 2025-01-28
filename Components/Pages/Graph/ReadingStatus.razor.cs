@@ -29,8 +29,8 @@ namespace MyBookShelf.Components.Pages.Graph
 
             PieChartDataset dataset = new()
             {
-                Label = "Status dos Livros",
-                Data = groupedData.Select(g => (double?)g.Count /*/ totalBooks * 100*/).ToList()
+                Label = "Quantidade de Livros",
+                Data = groupedData.Select(g => (double?)g.Count).ToList()
             };
 
             var labels = groupedData.Select(g => g.Status).ToList();
