@@ -36,6 +36,7 @@
                         <button class="add-button" @onclick="() => AddBookToUser(book)">Adicionar a sua Lista</button>
                     </li>
                 }
+                <button class="btn-group btn-primary" @onclick="CleanSearchResult">Limpar</button>
             </ul>
         }
         else
@@ -126,7 +127,7 @@
         </div>
     }
 
-    <NewBooks @rendermode="InteractiveServer" IsAddModalOpen="isAddModalOpen" IsAddModalOpenChanged="OnModalStatusChanged" />
+    <NewBooks ModalState="modalState" IsAddModalOpenChanged="OnModalStatusChanged" />
 
     <ConfirmDialog @ref="confirmDialog" />
 

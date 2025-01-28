@@ -2,6 +2,7 @@ using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
 using MyBookShelf.Models.Response;
 using MyBookShelf.Models.ViewModels;
+using static MyBookShelf.Components.Pages.Reading;
 
 namespace MyBookShelf.Components.Pages
 {
@@ -11,10 +12,15 @@ namespace MyBookShelf.Components.Pages
         [Inject] protected ToastService ToastService { get; set; }
         private void ShowMessage(ToastType toastType, string message) => ToastService.Notify(new(toastType, message));
 
-        [Parameter] public bool IsAddModalOpen { get; set; }  // Controla a visibilidade do modal
-        [Parameter] public EventCallback<int> IsAddModalOpenChanged { get; set; }  // Notifica o fechamento do modal        
+        [Parameter] public ModalState ModalState { get; set; }  // Controla a visibilidade do modal
+        [Parameter] public EventCallback<ModalState> IsAddModalOpenChanged { get; set; }  // Notifica o fechamento do modal        
 
-        public void CloseModal() => IsAddModalOpen = false;  // Fecha o modal
+        public void CloseModal()
+        {
+            ModalState = ModalState with { IsAddModalOpen = false };
+            IsAddModalOpenChanged.InvokeAsync(ModalState);
+        }
+
         private BookViewModel NewBook = new();
 
 
@@ -37,9 +43,9 @@ namespace MyBookShelf.Components.Pages
                 
                 var responseObject = await response.Content.ReadFromJsonAsync<BookResponse>();
                 int bookId = responseObject!.BookId;
-                await IsAddModalOpenChanged.InvokeAsync(bookId);
+                ModalState = ModalState with { IsAddModalOpen = false, Id = bookId };
+                await IsAddModalOpenChanged.InvokeAsync(ModalState);
                 NewBook = new();
-                CloseModal();
                 StateHasChanged(); // Garante que a UI seja atualizada
             }
 

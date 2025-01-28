@@ -21,19 +21,24 @@ namespace MyBookShelf.Components.Pages
         [Inject]
         AppDbContext AppDbContext { get; set; } = default!;
 
-        private bool isAddModalOpen = false;
+        
+        public record ModalState(bool IsAddModalOpen, int Id);
+        private ModalState modalState = new(false, 0);
 
-        private void AbrirModal()
+        private void AbrirModal(int id = 0)
         {
-            isAddModalOpen = true;  // Abre o modal
+            modalState = modalState with { IsAddModalOpen = true, Id = id };
         }
 
-        private async Task OnModalStatusChanged(int bookId)
+        private async Task OnModalStatusChanged(ModalState state)
         {
-            isAddModalOpen = false;
+            modalState = state;
             StateHasChanged();
-            var book = await AppDbContext.Books.FindAsync(bookId);
-            await AddBookToUser(book!);
+            if (state.Id > 0)
+            {
+                var book = await AppDbContext.Books.FindAsync(state.Id);
+                await AddBookToUser(book!);
+            }
         }
 
         private string SearchTerm { get; set; } = string.Empty;
@@ -54,7 +59,6 @@ namespace MyBookShelf.Components.Pages
             }
         }
 
-    
         private async Task AddBookToUser(Book book)
         {
             // Verifica se o livro já está na lista de leitura do utiçizador
@@ -252,5 +256,10 @@ namespace MyBookShelf.Components.Pages
             }
         }
 
+        private void CleanSearchResult()
+        {
+            SearchResults = [];
+            SearchTerm = String.Empty;
+        }
     }
 }
