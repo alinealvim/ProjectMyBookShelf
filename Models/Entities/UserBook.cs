@@ -25,6 +25,19 @@ namespace MyBookShelf.Models.Entities
             if (Book!.Pages == 0) return 0;
             return (int)((double)CurrentPage! / Book!.Pages * 100);
         }
+
+        // Calcula o tempo da leitura
+        public int? GetDaysSinceFirstReading()
+        {
+            var firstDate = ReadingHistories
+                .Where(r => r.Date.HasValue)
+                .OrderBy(r => r.Date)
+                .Select(r => r.Date)
+                .FirstOrDefault();
+
+            return firstDate.HasValue ? (DateTime.UtcNow.Date - firstDate.Value.Date).Days : null;
+        }
+
     }
 
     public enum BookStatus

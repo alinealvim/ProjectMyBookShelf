@@ -115,7 +115,7 @@ namespace MyBookShelf.Components.Pages
         {
             await base.OnInitializedAsync();
             userInfo = UserClaimService.GetUserInfo();
-            Books = AppDbContext.UserBooks.Include(ub => ub.Book).Where(x => x.UserID == userInfo.UserId).ToList();
+            Books = AppDbContext.UserBooks.Include(ub => ub.Book).Include(ub => ub.ReadingHistories).Where(x => x.UserID == userInfo.UserId).ToList();
         }
 
         private UserBook? BookToEdit;
@@ -138,7 +138,8 @@ namespace MyBookShelf.Components.Pages
                 EndDate = book.EndDate,
                 CurrentPage = book.CurrentPage,
                 Rating = book.Rating,
-                Notes = book.Notes
+                Notes = book.Notes,
+                ReadingHistories = book.ReadingHistories
             };
         }
 

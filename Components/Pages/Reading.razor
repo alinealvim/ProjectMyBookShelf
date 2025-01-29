@@ -87,6 +87,13 @@
                     <label>Título:</label>
                     <p>@BookToEdit.Book!.Title</p>
                 </div>
+                @if (@BookToEdit.GetDaysSinceFirstReading().HasValue)
+                {
+                    <div>
+                        <label>Dias Lido:</label>
+                        <p>@BookToEdit.GetDaysSinceFirstReading()</p>
+                    </div>
+                }
                 <div>
                     <label>Data de Início:</label>
                     <input type="date" @bind="BookToEdit.StartDate" />
