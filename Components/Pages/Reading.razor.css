@@ -117,7 +117,7 @@
 .rating-star {
     background: none;
     border: none;
-    font-size: 36px; 
+    font-size: 32px; 
     cursor: pointer;
     color: gray;
     transition: color 0.2s ease; 
