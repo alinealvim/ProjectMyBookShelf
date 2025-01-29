@@ -7,7 +7,7 @@
     margin: 0 auto;
     padding: 50px;
     gap: 20px; /* Espaçamento entre os gráficos */
-    height: 100vh;
+    height: 90vh;
     box-sizing: border-box; /* Inclui padding no cálculo da largura/altura */
     text-align: left;
 }
@@ -18,6 +18,10 @@
     gap: 20px; /* Espaço entre os gráficos */
     width: 100%; /* Ocupa toda a largura */
     max-width: 1200px; /* Limite máximo de largura */
+}
+button {
+    display: block;
+    margin: auto;
 }
 
 /* Estilo para telas maiores */
@@ -36,6 +40,8 @@
 
 /* Estilos para impressão */
 @media print {
+
+    
     /* Oculta botões e elementos desnecessários */
     .noprint {
         display: none !important;
@@ -59,6 +65,7 @@
     .print-only {
         text-align: right; /* Mantém o texto alinhado à esquerda */
         flex-grow: 1; /* Faz o texto ocupar o espaço restante */
+        margin-top: 50px;
     }
 
     /* Centraliza as datas corretamente */
@@ -74,8 +81,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
-        max-width: 100%;
+        width: 90%;
+        
     }
 
         .graph-wrapper div {
@@ -89,6 +96,9 @@
         width: 100% !important;
         height: auto !important;
     }
+
+
+
 }
 
 /* Oculta elementos exclusivos da impressão na tela */
