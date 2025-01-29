@@ -26,7 +26,7 @@ namespace MyBookShelf.Components.Pages
         
         private ModalState modalState = new(false, 0);
 
-        private void AbrirModal(int id = 0)
+        private void OpenModal(int id = 0)
         {
             modalState = modalState with { IsAddModalOpen = true, Id = id };
         }

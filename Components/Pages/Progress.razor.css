@@ -47,11 +47,11 @@ button {
         display: none !important;
     }
 
-    /* Ajusta cabeçalho da impressão: imagem à esquerda, texto à direita */
+   
     .print-header {
         display: flex;
         align-items: center;
-        justify-content: space-between; /* Distribui os elementos */
+        justify-content: space-between; 
         width: 100%;
         margin-bottom: 0px;
     }
@@ -63,12 +63,12 @@ button {
     }
 
     .print-only {
-        text-align: right; /* Mantém o texto alinhado à esquerda */
-        flex-grow: 1; /* Faz o texto ocupar o espaço restante */
+        text-align: right; 
+        flex-grow: 1; 
         margin-top: 50px;
     }
 
-    /* Centraliza as datas corretamente */
+    
     .date-filter {
         display: flex !important;
         justify-content: center;
@@ -76,7 +76,7 @@ button {
         margin-bottom: 20px;
     }
 
-    /* Ajusta os gráficos para não serem cortados */
+    
     .graph-wrapper {
         display: flex;
         flex-direction: column;
@@ -86,7 +86,7 @@ button {
     }
 
         .graph-wrapper div {
-            width: 80%; /* Expande os gráficos para melhor visibilidade */
+            width: 80%; /
             margin-bottom: 20px;
             page-break-inside: avoid;
         }
