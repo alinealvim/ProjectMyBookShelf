@@ -11,6 +11,8 @@ namespace MyBookShelf.Models.ViewModels
         [Required(ErrorMessage = "A confirmação da palavra-passe é obrigatória.")]
         [Compare("Password", ErrorMessage = "As palavras-passes não coincidem.")]
         public string? ConfirmPassword { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "A pergunta é obrigatória.")]
         public string? SecurityQuestion { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "A resposta é obrigatória.")]

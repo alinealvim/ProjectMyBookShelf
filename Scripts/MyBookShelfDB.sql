@@ -34,8 +34,8 @@ CREATE TABLE [dbo].[UserBook] (
     CurrentPage INT,
     Notes NVARCHAR(MAX),
     Rating INT,
-    CONSTRAINT FK_UserBook_User FOREIGN KEY (UserID) REFERENCES [dbo].[User](UserID),
-    CONSTRAINT FK_UserBook_Book FOREIGN KEY (BookID) REFERENCES [dbo].[Book](BookID)
+    CONSTRAINT FK_UserBook_User FOREIGN KEY (UserID) REFERENCES [dbo].[User](UserID) ON DELETE CASCADE, 
+    CONSTRAINT FK_UserBook_Book FOREIGN KEY (BookID) REFERENCES [dbo].[Book](BookID) ON DELETE CASCADE
 );
 GO
 
@@ -44,7 +44,7 @@ CREATE TABLE [dbo].[ReadingHistory] (
     UserBookID INT NOT NULL,
     PagesRead INT NOT NULL,
     Date DATE NOT NULL,
-    CONSTRAINT FK_ReadingHistory_UserBook FOREIGN KEY (UserBookID) REFERENCES UserBook(UserBookID)
+    CONSTRAINT FK_ReadingHistory_UserBook FOREIGN KEY (UserBookID) REFERENCES UserBook(UserBookID) ON DELETE CASCADE
 );
 GO
 
@@ -55,7 +55,7 @@ INSERT INTO [dbo].[User] VALUES (
 'admin'
 ,'uBIs/dgHRk3KRmcVWZ3QywdhKwisD9MCMWDq4fYt7hs='
 ,'Administrator'
-,'Qual é o nome do seu primeiro animal de estimação?',
+,'Qual   o nome do seu primeiro animal de estima  o?',
 'lO6BrrrYrLH2KiBghD/lEBgzE32iLBrGQkz6IZipYeY='
 ,NULL
 ,NULL)

@@ -39,9 +39,12 @@
             <PageStatus />
         </div>
     </div>
+
+    <button class="btn btn-primary noprint" @onclick="PrintPage">Gerar Relatório</button>
+
 </div>
 
-<button class="btn btn-primary noprint" @onclick="PrintPage">Imprimir Relatório</button>
+
 
 @code {
     private async Task PrintPage()

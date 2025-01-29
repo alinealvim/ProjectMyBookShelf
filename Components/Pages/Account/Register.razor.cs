@@ -35,7 +35,8 @@ namespace MyBookShelf.Components.Pages.Account
 
                 if (existingUser != null)
                 {
-                    errorMessage = "Por favor, escolha outro nome de utilizador.";                    
+                    errorMessage = "Por favor, escolha outro nome de utilizador.";
+                    ShowAlert(false);
                     return; // Interrompe o registo se o username já existir
                 }
 

@@ -59,10 +59,12 @@
             <div class="security-question">
                 <label>Pergunta de Segurança:</label>
                 <InputSelect class="form-select" id="inputGroupSelect01" @bind-Value="Model.SecurityQuestion">
+                    <option value="Escolha uma pergunta">Escolha uma pergunta</option>
                     <option value="Qual é o nome do seu primeiro animal de estimação?">Qual é o nome do seu primeiro animal de estimação?</option>
                     <option value="Qual é o nome da sua escola primária?">Qual é o nome da sua escola primária?</option>
                     <option value="Qual é o sobrenome da sua mãe?">Qual é o sobrenome da sua mãe?</option>
                 </InputSelect>
+                <ValidationMessage For="() => Model.SecurityQuestion" />
                 <label>Resposta:</label>
                 <InputText @bind-Value="Model.SecurityAnswer" type="text" placeholder="Insira sua resposta" />
                 <ValidationMessage For="() => Model.SecurityAnswer" />

@@ -20,6 +20,9 @@
    
     @* Barra de pesquisa dos livros *@
     <div>
+        <p>
+            Descubra os próximos livros que aguardam por você! Busque pelos títulos e os adicione à sua lista de futuras leituras.
+        </p>
         <input type="text" @bind="SearchTerm" placeholder="Buscar Livro..." />
         <button @onclick="SearchBooks">Buscar</button>
     </div>
@@ -41,7 +44,7 @@
         }
         else
         {
-            <p>Não encontrou o que queria? Clique <b><a href="#" @onclick="() => OpenModal()">aqui</a></b> para incluir um novo livro no nosso acervo.</p>
+            <p>Caso não encontre o livro que deseja, clique <b><a href="#" @onclick="() => OpenModal()">aqui</a></b> para incluir uma nova obra no nosso acervo.</p>
         }
     </div>
 
@@ -98,7 +101,7 @@
                 </div>
                 <div>
                     <label>Total de Páginas:</label>
-                    <input type="number" @bind="BookToEdit.Book!.Pages" min="1" />
+                    <input type="number" @bind="BookToEdit.Book!.Pages" min="1" readonly />
                 </div>
                 <div>
                     Progresso: @BookToEdit.GetProgress()%
