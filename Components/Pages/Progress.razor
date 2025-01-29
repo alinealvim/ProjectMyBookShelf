@@ -5,18 +5,29 @@
 @attribute [Authorize(Roles = "Administrator, User")]
 @rendermode InteractiveServer
 
+@inject IJSRuntime JSRuntime
+
 <PageTitle>Progresso</PageTitle>
 
+
 <div class="container">
-    <br />
-    <br />
-    <br />
-  
-    <h2>Acompanhe Sua Evolução</h2>
-   
-    <p>
+    
+    <h2 class="noprint">Acompanhe Sua Evolução</h2>
+
+    <p class="noprint">
         Visualize seu progresso de leitura de forma clara e motivadora. Escolha o período que deseja analisar:
     </p>
+
+
+   @*Cabeçalho exclusivo para impressão*@
+    <div class="print-header print-only">
+        <img src="./logo_azul_nobg.png" class="print-only-img" alt="Logo my book shelf" />
+        <div>
+            <h1>Relatório de Progresso</h1>
+            <p>Gerado em: @DateTime.Now.ToString("dd/MM/yyyy")</p>
+        </div>
+    </div>
+
 
     <div class="graph-wrapper">
         <div>
@@ -31,7 +42,16 @@
     </div>
 </div>
 
+<button class="btn btn-primary noprint" @onclick="PrintPage">Imprimir Página</button>
 
+@code {
+    private async Task PrintPage()
+    {
+        // Chama a função JavaScript window.print() para abrir a janela de impressão
+        await JSRuntime.InvokeVoidAsync("window.print");
+    }
+
+}
 
 
 

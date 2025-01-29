@@ -24,3 +24,10 @@
     margin-top: 10px; /* Espaço acima do botão */
     align-self: center; /* Centraliza o botão horizontalmente */
 }
+
+@media print {
+    /* Oculta botões e elementos desnecessários */
+    .noprint {
+        display: none !important;
+    }
+}

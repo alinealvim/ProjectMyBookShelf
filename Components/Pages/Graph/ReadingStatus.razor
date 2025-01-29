@@ -22,10 +22,9 @@
         <DateInput TValue="DateOnly" @bind-Value="@endDate" Placeholder="Insira a Data" />
     </div>
 
-    <button class="btn btn-primary" @onclick="ApplyFilter">Filtrar</button>
+    <button class="btn btn-primary noprint" @onclick="ApplyFilter">Filtrar</button>
 </div>
 
-@* <PieChart @ref="pieChart" /> *@
 
-<PieChart @ref="pieChart" Width="500" Height="300" />
+<PieChart Id="pieChartGraph" @ref="pieChart" Width="500" Height="300" />
 

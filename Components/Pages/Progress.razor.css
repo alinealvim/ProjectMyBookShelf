@@ -5,9 +5,9 @@
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    padding: 20px;
+    padding: 50px;
     gap: 20px; /* Espaçamento entre os gráficos */
-    height: auto;
+    height: 100vh;
     box-sizing: border-box; /* Inclui padding no cálculo da largura/altura */
     text-align: left;
 }
@@ -26,3 +26,81 @@
         grid-template-columns: 1fr 1fr; /* Dois gráficos lado a lado */
     }
 }
+
+
+/* Define a orientação como paisagem na impressão */
+@page {
+    size: A4;
+    margin: 20mm; /* Ajusta margens para caber melhor na folha */
+}
+
+/* Estilos para impressão */
+@media print {
+    /* Oculta botões e elementos desnecessários */
+    .noprint {
+        display: none !important;
+    }
+
+    /* Ajusta cabeçalho da impressão: imagem à esquerda, texto à direita */
+    .print-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Distribui os elementos */
+        width: 100%;
+        margin-bottom: 0px;
+    }
+
+    .print-only-img {
+        height: 120px;
+        width: 120px;
+        margin-left: 20px;
+    }
+
+    .print-only {
+        text-align: right; /* Mantém o texto alinhado à esquerda */
+        flex-grow: 1; /* Faz o texto ocupar o espaço restante */
+    }
+
+    /* Centraliza as datas corretamente */
+    .date-filter {
+        display: flex !important;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Ajusta os gráficos para não serem cortados */
+    .graph-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+    }
+
+        .graph-wrapper div {
+            width: 80%; /* Expande os gráficos para melhor visibilidade */
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+
+    /* Ajusta tamanho dos gráficos */
+    canvas, svg {
+        width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* Oculta elementos exclusivos da impressão na tela */
+@media screen {
+    .print-only {
+        display: none !important;
+    }
+}
+
+
+
+       
+
+
+

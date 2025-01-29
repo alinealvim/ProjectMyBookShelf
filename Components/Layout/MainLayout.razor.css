@@ -25,3 +25,11 @@ header {
         flex-direction: row;
     }
 }
+
+
+@media print {
+    /* Oculta os botões na impressão */
+    header {
+        display: none !important;
+    }
+}
