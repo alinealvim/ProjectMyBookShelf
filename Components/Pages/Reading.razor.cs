@@ -85,7 +85,6 @@ namespace MyBookShelf.Components.Pages
                 UserID = userInfo.UserId,
                 BookID = book.BookID, // Associa o livro com o ID do livro encontrado
                 Status = BookStatus.ParaLer, // Define um status inicial para o livro
-                StartDate = DateTime.Now, // Define uma data de início padrão
                 CurrentPage = 0, // Define a página inicial como 0
             };
 

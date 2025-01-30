@@ -22,10 +22,14 @@ namespace MyBookShelf.Services
             // Filtro de EndDate:
             // - EndDate NULL só será incluído se StartDate <= data final do intervalo
             // - EndDate não nulo deve estar dentro do intervalo e não ser menor que StartDate
+            //query = query.Where(x =>
+            //    (!x.EndDate.HasValue && x.StartDate.HasValue && x.StartDate.Value.Date <= endDateTime.Date) ||
+            //    (x.EndDate.HasValue && x.EndDate.Value.Date <= endDateTime.Date && (!x.StartDate.HasValue || x.EndDate.Value.Date >= x.StartDate.Value.Date))
+            //);
             query = query.Where(x =>
-                (!x.EndDate.HasValue && x.StartDate.HasValue && x.StartDate.Value.Date <= endDateTime.Date) ||
-                (x.EndDate.HasValue && x.EndDate.Value.Date <= endDateTime.Date && (!x.StartDate.HasValue || x.EndDate.Value.Date >= x.StartDate.Value.Date))
-            );
+        (!x.EndDate.HasValue && (!x.StartDate.HasValue || x.StartDate.Value.Date <= endDateTime.Date)) ||
+        (x.EndDate.HasValue && x.EndDate.Value.Date <= endDateTime.Date && (!x.StartDate.HasValue || x.EndDate.Value.Date >= x.StartDate.Value.Date))
+    );
             var groupedData = await query
                 .GroupBy(ub => ub.Status)
                 .Select(g => new ReadingStatusDTO

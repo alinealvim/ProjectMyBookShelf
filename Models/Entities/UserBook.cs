@@ -35,7 +35,24 @@ namespace MyBookShelf.Models.Entities
                 .Select(r => r.Date)
                 .FirstOrDefault();
 
-            return firstDate.HasValue ? (DateTime.UtcNow.Date - firstDate.Value.Date).Days : null;
+            var endDate = ReadingHistories
+                .Where(r => r.Date.HasValue)
+                .OrderByDescending(r => r.Date)
+                .Select(r => r.Date)
+                .FirstOrDefault();
+
+            if ( EndDate.HasValue && firstDate.HasValue && endDate.HasValue) 
+            {
+                var dateTarget = (endDate - firstDate).Value.Days;
+                return dateTarget;
+            }
+            else
+            {
+                return firstDate.HasValue ? (DateTime.UtcNow.Date - firstDate.Value.Date).Days : null;
+            }
+
+            
+           
         }
 
     }
