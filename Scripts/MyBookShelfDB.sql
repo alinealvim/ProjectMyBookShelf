@@ -48,14 +48,13 @@ CREATE TABLE [dbo].[ReadingHistory] (
 );
 GO
 
--- senha:12345
--- resposta: frida
+
 
 INSERT INTO [dbo].[User] VALUES (
 'admin'
 ,'uBIs/dgHRk3KRmcVWZ3QywdhKwisD9MCMWDq4fYt7hs='
 ,'Administrator'
-,'Qual   o nome do seu primeiro animal de estima  o?',
+,'Qual é o nome do seu primeiro animal de estimação?',
 'lO6BrrrYrLH2KiBghD/lEBgzE32iLBrGQkz6IZipYeY='
 ,NULL
 ,NULL)
