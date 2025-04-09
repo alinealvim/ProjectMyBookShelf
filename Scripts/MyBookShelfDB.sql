@@ -48,7 +48,8 @@ CREATE TABLE [dbo].[ReadingHistory] (
 );
 GO
 
-
+-- senha:12345
+-- resposta: frida
 
 INSERT INTO [dbo].[User] VALUES (
 'admin'
