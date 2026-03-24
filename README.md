@@ -1,90 +1,57 @@
-# My Book Shelf
+# My Book Shelf — Reading Habit Tracker
 
-![PT](https://img.shields.io/badge/🇧🇷-Português-green)
-## Descrição
-O **My Book Shelf** é uma aplicação web desenvolvida para auxiliar os utilizadores a criar e manter o hábito da leitura. Com esta ferramenta, os utilizadores podem:
+A web application designed to help users build and maintain a consistent reading habit — making progress visible, reducing friction, and increasing motivation over time.
 
-- Gerir listas de livros.
-- Acompanhar o progresso de leitura.
-- Visualizar gráficos com estatísticas de leitura.
-
-O projeto foi desenvolvido utilizando **C# e Blazor Web App**, e utiliza **SQL Server** como base de dados.
+Developed as part of a Technical Specialist programme in Information Systems Programming.
 
 ---
 
-## Estrutura do Código
-O projeto está organizado em diversas camadas para facilitar a manutenção e o desenvolvimento. Aqui está um resumo da estrutura de pastas:
+## The Problem
 
-```
-MyBookShelf/
-│── Components/        # Componentes reutilizáveis (layouts, menus, etc.)
-│── Pages/             # Páginas principais (login, registo, etc.)
-│── Controllers/       # Controladores backend para CRUD
-│── Models/            # Entidades da base de dados e ViewModels
-│── Data/              # Configuração do Entity Framework (AppDbContext.cs)
-│── wwwroot/           # Arquivos estáticos (imagens, estilos, etc.)
-│── Services/          # Serviços reutilizáveis e lógica de negócios
-│── Properties/        # Arquivos de configuração (launchSettings.json)
-│── Dependencies/      # Pacotes NuGet utilizados
-```
+Less than 50% of the Portuguese population reads at least one book per year. The core issue isn't lack of interest — it's lack of continuity.
 
-### Arquivos Principais
-- **AppDbContext.cs**: Configuração do contexto da base de dados.
-- **BooksController.cs e UsersController.cs**: Controladores responsáveis pelo CRUD de livros e utilizadores.
-- **Reading.razor**: Página para acompanhamento do progresso de leitura.
-- **Program.cs**: Configuração inicial da aplicação.
+My Book Shelf was built to address this: a simple, focused tool that makes reading progress visible and reinforces consistency over time.
 
 ---
 
-## Tecnologias Utilizadas
+## Product Approach
 
-- **Blazor Web App** - Framework para desenvolvimento da aplicação.
-- **Entity Framework Core (EF Core)** - Acesso à base de dados SQL Server.
-- **Bootstrap** - Interface gráfica e componentes visuais.
-- **SQL Server** - Base de dados relacional.
+**Discovery & framing**
+The product was framed around three key drivers: visibility of progress, sense of achievement, and ease of tracking. Rather than building a feature-rich reading app, the focus was kept on the core habit-building loop.
 
----
+**Planning**
+The project was structured using Scrum across five two-week sprints, with a prioritised product backlog, effort estimation, sprint scope definition, and risk mapping (timeline, technical complexity, and continuity risks).
 
-![EN](https://img.shields.io/badge/🇬🇧-English-blue)
+![Trello board](assets/02-trello.jpg)
 
-## Overview
-**My Book Shelf** is a web application designed to help users build and maintain reading habits. This tool enables readers to:
-- Organize their book collections
-- Track reading progress
-- View detailed reading analytics and statistics
+**Design**
+A Figma prototype was created before development to validate user flows and ensure alignment between functionality and experience. The system architecture follows a three-layer model: presentation, business logic, and data.
 
-Built with **C# and Blazor Web App** with **SQL Server** database integration.
+![Figma prototype](assets/03-figma.jpg)
 
 ---
 
-## Project Structure
-The codebase follows a layered architecture for better maintainability:
+## Core Features
 
-```
-MyBookShelf/
-│── Components/        # UI building blocks (layouts, menus, etc.)
-│── Pages/             # Core pages (login, signup, etc.)
-│── Controllers/       # Backend CRUD operations
-│── Models/            # Data entities and ViewModels
-│── Data/              # Entity Framework setup (AppDbContext.cs)
-│── wwwroot/           # Static assets (images, CSS, etc.)
-│── Services/          # Business logic and shared services
-│── Properties/        # Config settings (launchSettings.json)
-│── Dependencies/      # NuGet package references
-```
+- Book tracking with status management (To Read, Reading, Read)
+- Reading progress tracking by pages and dates
+- Data visualisation through habit charts
+- Admin panel for content management
 
-### Key Files
-- **AppDbContext.cs**: Database configuration
-- **BooksController.cs & UsersController.cs**: Book and user management logic
-- **Reading.razor**: Reading progress tracker interface
-- **Program.cs**: Application startup configuration
+![App list view](assets/04-app-list.png)
+
+![Progress charts](assets/05-app-charts.png)
 
 ---
 
-## Tech Stack
-- **Blazor Web App** - Frontend and backend framework
-- **Entity Framework Core** - SQL Server data access layer
-- **Bootstrap** - UI components and styling
-- **SQL Server** - Relational database storage
+## Outcome
+
+A functional full-stack product that enables users to track reading progress and visualise habits over time.
+
+Final grade: **19/20** — with positive feedback on problem framing and product approach.
 
 ---
+
+## Stack
+
+C# · Blazor Web App · SQL Server · Entity Framework Core · Bootstrap · Figma · Trello · GitHub
