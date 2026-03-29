@@ -2,7 +2,7 @@
 
 A web application designed to help users build and maintain a consistent reading habit — making progress visible, reducing friction, and increasing motivation over time.
 
-Developed as part of a Technical Specialist programme in Information Systems Programming.
+This project was developed as part of a Technical Specialist programme in Information Systems Programming.
 
 ---
 
@@ -30,14 +30,23 @@ A Figma prototype was created before development to validate user flows and ensu
 ![Figma prototype](assets/03-figma.jpg)
 
 ---
+## Key Product Decisions
 
-## Core Features
+- Prioritized simplicity over feature expansion to reduce friction and support habit formation.
+- Focused on individual tracking instead of social features to avoid distraction from the core goal.
+- Delayed advanced features (e.g., recommendations) to maintain a clear MVP scope.
+  
+---
 
-- Book tracking with status management (To Read, Reading, Read)
-- Reading progress tracking by pages and dates
-- Data visualisation through habit charts
-- Admin panel for content management
+## Product Features
 
+Each feature was designed to support the habit loop by reducing friction and increasing motivation:
+
+- Book tracking (To Read, Reading, Read) → provides structure and clarity on reading status.
+- Progress tracking → makes effort visible and reinforces consistency.
+- Habit charts → create a sense of achievement over time.
+- Admin panel → ensures easy content management without affecting user flow.
+  
 ![App list view](assets/04-app-list.png)
 
 ![Progress charts](assets/05-app-charts.png)
@@ -46,9 +55,17 @@ A Figma prototype was created before development to validate user flows and ensu
 
 ## Outcome
 
-A functional full-stack product that enables users to track reading progress and visualise habits over time.
+A functional full-stack product that enables users to track reading progress and visualise habits over time, supporting the initial goal of reinforcing consistency.
 
 Final grade: **19/20** — with positive feedback on problem framing and product approach.
+
+---
+
+## What I would validate next
+
+- Whether progress visualisation effectively increases user consistency over time.
+- Which features users engage with most (tracking vs. charts).
+- Whether reminders or notifications would improve habit continuity.
 
 ---
 
